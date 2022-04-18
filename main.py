@@ -114,10 +114,12 @@ def ip():
     while inicio_do_mes <= fim_do_mes:
         if verifica_se_domingo_e_impar(inicio_do_mes, resultado[0]) == True:
             a.append(adiciona_folga_impar(inicio_do_mes))
-
+        
         if verific_se_domingo_e_par(inicio_do_mes, resultado[0]) == True:
             b.append(adiciona_folga_par(inicio_do_mes))
-            
+      
         inicio_do_mes += dias
-    return a, b
-print(ip())
+    return a[-1], b[-1]
+impar_par = ip()
+for chave, valor in impar_par[0].items():
+    print(chave, " : ", valor) 
