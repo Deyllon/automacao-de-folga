@@ -28,12 +28,36 @@ def verifica_ano(ano, mes):
     else:
         sg.popup("Porfavor verifique se você digitou um ano ")
         
+def traduzir_dia(dia):
+    nome_do_dia = day_name[dia.weekday()]
+    if nome_do_dia == "Monday":
+        nome_do_dia = "Segunda-feira"
+        return nome_do_dia
+    elif nome_do_dia == "Tuesday":
+        nome_do_dia = "Terça-feira"
+        return nome_do_dia
+    elif nome_do_dia == "Wednesday":
+        nome_do_dia = "Quarta-feira"
+        return nome_do_dia
+    elif nome_do_dia == "Thursday":
+        nome_do_dia = "Quinta-feira"
+        return nome_do_dia
+    elif nome_do_dia == "Friday":
+        nome_do_dia = "Sexta-feira"
+        return nome_do_dia
+    elif nome_do_dia == "Saturday":
+        nome_do_dia = "Sábado"
+        return nome_do_dia
+    nome_do_dia = "Domingo"
+    return nome_do_dia
+
+        
 def adiciona_folga_impar(dia):
     impar = ["rafael" , "neto", "henrique"]
     
     dia_somar = timedelta(days=1)
     while len(impar) !=0:
-        nome_do_dia = day_name[dia.weekday()]
+        nome_do_dia = traduzir_dia(dia)
         if dia.day % 2 != 0:
             while True:
                 alguem_quer_folga = sg.popup_yes_no(f"Clique em yes se alguem quiser folgar no dia {dia} ou então clique em no se ninguem quiser: ")
@@ -60,7 +84,7 @@ def adiciona_folga_par(dia):
     
     dia_somar = timedelta(days=1)
     while len(par) !=0:
-        nome_do_dia = day_name[dia.weekday()]
+        nome_do_dia = traduzir_dia(dia)
         if dia.day % 2 == 0:
             while True:
                 alguem_quer_folga = sg.popup_yes_no(f"Clique em yes se alguem quiser folgar no dia {dia} ou então clique em no se ninguem quiser: ")
@@ -111,3 +135,12 @@ def folga(resultado):
       
         inicio_do_mes += dias
     return folga_para_impares[-1], folga_para_pares[-1]
+
+
+def trata_retorno_folga(retorno):
+    for chave, valor in  retorno[0].items():
+        print(f"No dia: {chave} o funcionario: {valor} ira folgar")
+    for chave, valor in retorno[1].items():
+        print(f"No dia: {chave} o funcionario: {valor} ira folgar")
+        
+
