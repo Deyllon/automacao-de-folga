@@ -3,6 +3,7 @@ from calendar import monthrange, day_name
 from dis import dis
 import holidays
 import PySimpleGUI as sg
+import xlsxwriter 
 
 
 feriados = holidays.Brazil()
@@ -31,19 +32,19 @@ def verifica_ano(ano, mes):
 def traduzir_dia(dia):
     nome_do_dia = day_name[dia.weekday()]
     if nome_do_dia == "Monday":
-        nome_do_dia = "Segunda-feira"
+        nome_do_dia = "Segunda feira"
         return nome_do_dia
     elif nome_do_dia == "Tuesday":
-        nome_do_dia = "Terça-feira"
+        nome_do_dia = "Terça feira"
         return nome_do_dia
     elif nome_do_dia == "Wednesday":
-        nome_do_dia = "Quarta-feira"
+        nome_do_dia = "Quarta feira"
         return nome_do_dia
     elif nome_do_dia == "Thursday":
-        nome_do_dia = "Quinta-feira"
+        nome_do_dia = "Quinta feira"
         return nome_do_dia
     elif nome_do_dia == "Friday":
-        nome_do_dia = "Sexta-feira"
+        nome_do_dia = "Sexta feira"
         return nome_do_dia
     elif nome_do_dia == "Saturday":
         nome_do_dia = "Sábado"
@@ -142,5 +143,29 @@ def trata_retorno_folga(retorno):
         print(f"No dia: {chave} o funcionario: {valor} ira folgar")
     for chave, valor in retorno[1].items():
         print(f"No dia: {chave} o funcionario: {valor} ira folgar")
-        
 
+
+def cria_arquivo_excel(retorno):
+    arquivo = xlsxwriter.Workbook("Planilha de folgas3.xlsx")
+    tabela = arquivo.add_worksheet("Folga")
+    nome_colunas = ["Dia", "Numero do dia", "Funcionario"]
+    linha = 0
+    coluna = 0
+    tabela.write(linha, coluna, nome_colunas[0])
+    tabela.write(linha, coluna+1, nome_colunas[1])
+    tabela.write(linha, coluna+2, nome_colunas[2])
+    linha+=1
+    for chave, valor in retorno[0].items():
+        chave = chave.split("-")
+        tabela.write(linha,coluna,chave[0])
+        tabela.write(linha,coluna+1,chave[1])
+        tabela.write(linha,coluna+2,valor)
+        linha+=1
+    for chave, valor in retorno[1].items():
+        chave = chave.split("-")
+        tabela.write(linha,coluna,chave[0])
+        tabela.write(linha,coluna+1,chave[1])
+        tabela.write(linha,coluna+2,valor)
+        linha+=1
+    arquivo.close()
+    

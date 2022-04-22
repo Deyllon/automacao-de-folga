@@ -1,6 +1,6 @@
 import imp
 import PySimpleGUI as sg
-sg.theme("DarkTeal12")
+sg.theme("LightBlue4")
 from main import *
 
 
@@ -34,6 +34,7 @@ class TelaPython:
             if resultado:
                 retorno = folga(resultado)
                 trata_retorno_folga(retorno)
+                cria_arquivo_excel(retorno)
                 
                         
 tela = TelaPython()
